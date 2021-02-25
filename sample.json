@@ -1,0 +1,10 @@
+{
+"candidateFirstName": "John",
+"candidateLastName": "Doe",
+"review": "test",
+"interviewerName": "Adam",
+"interviewerEmail": "Adam@corelogic.com",
+"hiringManagerName": "Mateo",
+"hiringManagerEmail": "Mateo@corelogic.com",
+"dateInterviewed": "2021-02-25"
+}
