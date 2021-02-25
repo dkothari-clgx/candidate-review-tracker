@@ -1,13 +1,12 @@
-package com.corelogic.candidatereviewtracker;
+package com.corelogic.candidatereviewtracker.controller;
 
-import com.corelogic.candidatereviewtracker.Models.Reviews;
-import com.corelogic.candidatereviewtracker.Repositories.ReviewsRepository;
+import com.corelogic.candidatereviewtracker.model.Review;
+import com.corelogic.candidatereviewtracker.repository.ReviewRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -24,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ReviewsControllerIT {
+public class ReviewControllerTest {
 
     @Autowired
     private MockMvc mockUser;
@@ -33,13 +32,12 @@ public class ReviewsControllerIT {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private ReviewsRepository repository;
-
+    private ReviewRepository repository;
 
     @Test
     public void createReviewsModelWhenUserPerformsPOSTToApplicantsEndpoint_ThenSaveReviewInDatabase() throws Exception {
 
-        Reviews expectedReview = Reviews.builder()
+        Review expectedReview = Review.builder()
                 .candidateFirstName("John")
                 .candidateLastName("Doe")
                 .review("Test")
@@ -56,7 +54,7 @@ public class ReviewsControllerIT {
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        Reviews results = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Reviews.class);
+        Review results = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Review.class);
 
 
         assertThat(results.getCandidateFirstName()).isEqualTo(expectedReview.getCandidateFirstName());
@@ -71,7 +69,7 @@ public class ReviewsControllerIT {
         assertThat(results.getCreatedDate()).isCloseTo(LocalDateTime.now(), within(1L, ChronoUnit.MINUTES));
         assertThat(results.getUpdatedDate()).isCloseTo(LocalDateTime.now(), within(1L, ChronoUnit.MINUTES));
 
-        Reviews dbResults = repository.findFirstByCandidateFirstNameAndCandidateLastName(expectedReview.getCandidateFirstName(), expectedReview.getCandidateLastName()).get();
+        Review dbResults = repository.findFirstByCandidateFirstNameAndCandidateLastName(expectedReview.getCandidateFirstName(), expectedReview.getCandidateLastName()).get();
 
         assertThat(dbResults.getCandidateFirstName()).isEqualTo(expectedReview.getCandidateFirstName());
         assertThat(dbResults.getCandidateLastName()).isEqualTo(expectedReview.getCandidateLastName());

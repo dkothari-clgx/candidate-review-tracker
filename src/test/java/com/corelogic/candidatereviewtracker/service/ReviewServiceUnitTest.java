@@ -1,7 +1,7 @@
-package com.corelogic.candidatereviewtracker.Service;
+package com.corelogic.candidatereviewtracker.service;
 
-import com.corelogic.candidatereviewtracker.Models.Reviews;
-import com.corelogic.candidatereviewtracker.Repositories.ReviewsRepository;
+import com.corelogic.candidatereviewtracker.model.Review;
+import com.corelogic.candidatereviewtracker.repository.ReviewRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,16 +18,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class reviewServiceUT {
+public class ReviewServiceUnitTest {
     @Mock
-    private ReviewsRepository reviewsRepositoryMock;
+    private ReviewRepository reviewRepositoryMock;
 
-    private Reviews reviewTest;
-    private Reviews reviewReturn = new Reviews();
+    private Review reviewTest;
+    private Review reviewReturn = new Review();
 
     @BeforeEach
     void setUp() {
-        reviewTest = new Reviews().builder()
+        reviewTest = new Review().builder()
                 .candidateFirstName("John")
                 .candidateLastName("Doe")
                 .review("Test")
@@ -46,10 +46,10 @@ public class reviewServiceUT {
         reviewReturn.setCreatedDate(LocalDateTime.now());
         reviewReturn.setUpdatedDate(LocalDateTime.now());
 
-        ReviewsService subject = new ReviewsService(reviewsRepositoryMock);
-        when(reviewsRepositoryMock.save(reviewTest)).thenReturn(reviewReturn);
-        Reviews returnedValue = subject.save(reviewTest);
-        verify(reviewsRepositoryMock).save(reviewTest);
+        ReviewService subject = new ReviewService(reviewRepositoryMock);
+        when(reviewRepositoryMock.save(reviewTest)).thenReturn(reviewReturn);
+        Review returnedValue = subject.save(reviewTest);
+        verify(reviewRepositoryMock).save(reviewTest);
         assertThat(returnedValue).isEqualTo(reviewReturn);
     }
 }

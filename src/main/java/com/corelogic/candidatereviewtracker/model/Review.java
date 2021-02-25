@@ -1,4 +1,4 @@
-package com.corelogic.candidatereviewtracker.Models;
+package com.corelogic.candidatereviewtracker.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +22,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Reviews {
+public class Review {
     @Id
     @GeneratedValue
     private UUID id;
