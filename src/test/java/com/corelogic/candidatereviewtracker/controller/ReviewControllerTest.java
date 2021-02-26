@@ -54,34 +54,34 @@ public class ReviewControllerTest {
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        Review results = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Review.class);
+        Review response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Review.class);
 
 
-        assertThat(results.getCandidateFirstName()).isEqualTo(expectedReview.getCandidateFirstName());
-        assertThat(results.getCandidateLastName()).isEqualTo(expectedReview.getCandidateLastName());
-        assertThat(results.getReview()).isEqualTo(expectedReview.getReview());
-        assertThat(results.getInterviewerName()).isEqualTo(expectedReview.getInterviewerName());
-        assertThat(results.getInterviewerEmail()).isEqualTo(expectedReview.getInterviewerEmail());
-        assertThat(results.getHiringManagerName()).isEqualTo(expectedReview.getHiringManagerName());
-        assertThat(results.getHiringManagerEmail()).isEqualTo(expectedReview.getHiringManagerEmail());
-        assertThat(results.getDateInterviewed()).isEqualTo(expectedReview.getDateInterviewed());
-        assertThat(results.getId().toString()).matches("([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})");
-        assertThat(results.getCreatedDate()).isCloseTo(LocalDateTime.now(), within(1L, ChronoUnit.MINUTES));
-        assertThat(results.getUpdatedDate()).isCloseTo(LocalDateTime.now(), within(1L, ChronoUnit.MINUTES));
+        assertThat(response.getCandidateFirstName()).isEqualTo(expectedReview.getCandidateFirstName());
+        assertThat(response.getCandidateLastName()).isEqualTo(expectedReview.getCandidateLastName());
+        assertThat(response.getReview()).isEqualTo(expectedReview.getReview());
+        assertThat(response.getInterviewerName()).isEqualTo(expectedReview.getInterviewerName());
+        assertThat(response.getInterviewerEmail()).isEqualTo(expectedReview.getInterviewerEmail());
+        assertThat(response.getHiringManagerName()).isEqualTo(expectedReview.getHiringManagerName());
+        assertThat(response.getHiringManagerEmail()).isEqualTo(expectedReview.getHiringManagerEmail());
+        assertThat(response.getDateInterviewed()).isEqualTo(expectedReview.getDateInterviewed());
+        assertThat(response.getId().toString()).matches("([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})");
+        assertThat(response.getCreatedDate()).isCloseTo(LocalDateTime.now(), within(1L, ChronoUnit.MINUTES));
+        assertThat(response.getUpdatedDate()).isCloseTo(LocalDateTime.now(), within(1L, ChronoUnit.MINUTES));
 
-        Review dbResults = repository.findFirstByCandidateFirstNameAndCandidateLastName(expectedReview.getCandidateFirstName(), expectedReview.getCandidateLastName()).get();
+        Review dbReview = repository.findByCandidateFirstNameAndCandidateLastName(expectedReview.getCandidateFirstName(), expectedReview.getCandidateLastName()).get(0);
 
-        assertThat(dbResults.getCandidateFirstName()).isEqualTo(expectedReview.getCandidateFirstName());
-        assertThat(dbResults.getCandidateLastName()).isEqualTo(expectedReview.getCandidateLastName());
-        assertThat(dbResults.getReview()).isEqualTo(expectedReview.getReview());
-        assertThat(dbResults.getInterviewerName()).isEqualTo(expectedReview.getInterviewerName());
-        assertThat(dbResults.getInterviewerEmail()).isEqualTo(expectedReview.getInterviewerEmail());
-        assertThat(dbResults.getHiringManagerName()).isEqualTo(expectedReview.getHiringManagerName());
-        assertThat(dbResults.getHiringManagerEmail()).isEqualTo(expectedReview.getHiringManagerEmail());
-        assertThat(dbResults.getDateInterviewed()).isEqualTo(expectedReview.getDateInterviewed());
-        assertThat(dbResults.getId().toString()).matches("([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})");
-        assertThat(dbResults.getCreatedDate()).isCloseTo(LocalDateTime.now(), within(1L, ChronoUnit.MINUTES));
-        assertThat(dbResults.getUpdatedDate()).isCloseTo(LocalDateTime.now(), within(1L, ChronoUnit.MINUTES));
+        assertThat(dbReview.getCandidateFirstName()).isEqualTo(expectedReview.getCandidateFirstName());
+        assertThat(dbReview.getCandidateLastName()).isEqualTo(expectedReview.getCandidateLastName());
+        assertThat(dbReview.getReview()).isEqualTo(expectedReview.getReview());
+        assertThat(dbReview.getInterviewerName()).isEqualTo(expectedReview.getInterviewerName());
+        assertThat(dbReview.getInterviewerEmail()).isEqualTo(expectedReview.getInterviewerEmail());
+        assertThat(dbReview.getHiringManagerName()).isEqualTo(expectedReview.getHiringManagerName());
+        assertThat(dbReview.getHiringManagerEmail()).isEqualTo(expectedReview.getHiringManagerEmail());
+        assertThat(dbReview.getDateInterviewed()).isEqualTo(expectedReview.getDateInterviewed());
+        assertThat(dbReview.getId().toString()).matches("([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})");
+        assertThat(dbReview.getCreatedDate()).isCloseTo(LocalDateTime.now(), within(1L, ChronoUnit.MINUTES));
+        assertThat(dbReview.getUpdatedDate()).isCloseTo(LocalDateTime.now(), within(1L, ChronoUnit.MINUTES));
     }
 
 
