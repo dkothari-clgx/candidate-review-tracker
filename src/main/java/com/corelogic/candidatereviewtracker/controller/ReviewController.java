@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController()
+@RestController
 public class ReviewController {
 
     private ReviewService reviewService;
@@ -18,7 +18,7 @@ public class ReviewController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(value = "/api/applicants")
+    @PostMapping("/api/applicants")
     public Review createReview(@RequestBody Review review){
         return reviewService.save(review);
     }

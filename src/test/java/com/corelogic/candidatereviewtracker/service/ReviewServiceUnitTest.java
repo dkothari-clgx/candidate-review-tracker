@@ -7,13 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.util.ReflectionUtils;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -22,12 +19,12 @@ public class ReviewServiceUnitTest {
     @Mock
     private ReviewRepository reviewRepositoryMock;
 
-    private Review reviewTest;
-    private Review reviewReturn = new Review();
+    private Review review;
+    private ReviewService subject;
 
     @BeforeEach
     void setUp() {
-        reviewTest = new Review().builder()
+        review = new Review().builder()
                 .candidateFirstName("John")
                 .candidateLastName("Doe")
                 .review("Test")
@@ -37,19 +34,15 @@ public class ReviewServiceUnitTest {
                 .hiringManagerEmail("Mateo@corelogic.com")
                 .dateInterviewed(LocalDate.of(2021, 02, 25))
                 .build();
-        ReflectionUtils.shallowCopyFieldState(reviewTest, reviewReturn);
+        subject = new ReviewService(reviewRepositoryMock);
     }
 
     @Test
-    public void ReviewsRepositorySaveReview(){
-        reviewReturn.setId(UUID.randomUUID());
-        reviewReturn.setCreatedDate(LocalDateTime.now());
-        reviewReturn.setUpdatedDate(LocalDateTime.now());
+    public void ReviewsRepositorySaveReview() {
+        when(reviewRepositoryMock.save(review)).thenReturn(any(Review.class));
 
-        ReviewService subject = new ReviewService(reviewRepositoryMock);
-        when(reviewRepositoryMock.save(reviewTest)).thenReturn(reviewReturn);
-        Review returnedValue = subject.save(reviewTest);
-        verify(reviewRepositoryMock).save(reviewTest);
-        assertThat(returnedValue).isEqualTo(reviewReturn);
+        subject.save(review);
+
+        verify(reviewRepositoryMock).save(review);
     }
 }
