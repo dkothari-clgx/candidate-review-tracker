@@ -2,6 +2,7 @@ package com.corelogic.candidatereviewtracker.service;
 
 import com.corelogic.candidatereviewtracker.model.Review;
 import com.corelogic.candidatereviewtracker.repository.ReviewRepository;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,5 +45,14 @@ public class ReviewServiceUnitTest {
         subject.save(review);
 
         verify(reviewRepositoryMock).save(review);
+    }
+
+    @Test
+    public void ReviewsRepositoryFindAllReviews() {
+        when(reviewRepositoryMock.findAll()).thenReturn(Lists.newArrayList(review));
+
+        subject.findAll();
+
+        verify(reviewRepositoryMock).findAll();
     }
 }

@@ -3,10 +3,10 @@ package com.corelogic.candidatereviewtracker.controller;
 import com.corelogic.candidatereviewtracker.model.Review;
 import com.corelogic.candidatereviewtracker.service.ReviewService;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.List;
 
 @RestController
 public class ReviewController {
@@ -22,4 +22,8 @@ public class ReviewController {
     public Review createReview(@RequestBody Review review) {
         return reviewService.save(review);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/api/applicants")
+    public List<Review> listReview() { return reviewService.findAll(); }
 }

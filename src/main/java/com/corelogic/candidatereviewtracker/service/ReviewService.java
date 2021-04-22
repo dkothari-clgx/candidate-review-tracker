@@ -5,6 +5,9 @@ import com.corelogic.candidatereviewtracker.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.List;
+
 @Service
 public class ReviewService {
 
@@ -15,9 +18,12 @@ public class ReviewService {
         this.reviewRepository = reviewRepository;
     }
 
-    @Transactional
     public Review save(Review review) {
         return reviewRepository.save(review);
+    }
+
+    public List<Review> findAll() {
+        return reviewRepository.findAll();
     }
 }
 
