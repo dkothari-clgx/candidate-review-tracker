@@ -25,5 +25,5 @@ public class ReviewController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/api/applicants")
-    public List<Review> listReview() { return reviewService.findAll(); }
+    public List<Review> listReview(@RequestParam(required = false) String candidateFirstName, @RequestParam(required = false) String candidateLastName) { return reviewService.findAll(candidateFirstName, candidateLastName); }
 }

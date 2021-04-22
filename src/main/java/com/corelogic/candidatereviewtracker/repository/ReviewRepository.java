@@ -19,4 +19,8 @@ public interface ReviewRepository extends CrudRepository<Review, UUID> {
     Optional<Review> findById(UUID id);
 
     List<Review> findByCandidateFirstNameAndCandidateLastName(String candidateFirstName, String candidateLastName);
+
+    List<Review> findByCandidateFirstName(String candidateFirstName);
+
+    List<Review> findByCandidateLastName(String candidateLastName);
 }

@@ -106,10 +106,74 @@ public class ReviewControllerTest {
         assertThat(response).isEqualTo(expectedReviews);
     }
 
+    @Test
+    public void listReviewsModelsWhenUserPerformsGETToApplicantsEndpoints_GivenCandidatesFirstNameQueryParameter_ExpectingMultipleResults() throws Exception {
+        List<Review> expectedReviews = new ArrayList<>();
+
+        expectedReviews.add(createReview(buildReview("John", "Doe")));
+        expectedReviews.add(createReview(buildReview("John", "Smith")));
+        createReview(buildReview("Jane", "Smith"));
+
+        MvcResult mvcResult = mockUser.perform(get(urlTemplate).param("candidateFirstName", "John")).andExpect(status().isOk()).andReturn();
+
+        List<Review> response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<List<Review>>() {});
+
+        assertThat(response.size()).isEqualTo(expectedReviews.size());
+
+        assertThat(response).isEqualTo(expectedReviews);
+    }
+
+    @Test
+    public void listReviewsModelsWhenUserPerformsGETToApplicantsEndpoints_GivenCandidatesLastNameQueryParameter_ExpectingMultipleResults() throws Exception {
+        List<Review> expectedReviews = new ArrayList<>();
+
+        expectedReviews.add(createReview(buildReview("John", "Doe")));
+        expectedReviews.add(createReview(buildReview("Jane", "Doe")));
+        createReview(buildReview("Jane", "Smith"));
+
+        MvcResult mvcResult = mockUser.perform(get(urlTemplate).param("candidateLastName", "Doe")).andExpect(status().isOk()).andReturn();
+
+        List<Review> response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<List<Review>>() {});
+
+        assertThat(response.size()).isEqualTo(expectedReviews.size());
+
+        assertThat(response).isEqualTo(expectedReviews);
+    }
+
+    @Test
+    public void listReviewsModelsWhenUserPerformsGETToApplicantsEndpoints_GivenCandidatesFirstAndLastNameQueryParameter_ExpectingMultipleResults() throws Exception {
+        List<Review> expectedReviews = new ArrayList<>();
+
+        expectedReviews.add(createReview(buildReview("John", "Doe")));
+        createReview(buildReview("Jane", "Doe"));
+        createReview(buildReview("John", "Smith"));
+
+        MvcResult mvcResult = mockUser.perform(get(urlTemplate).param("candidateFirstName", "John").param("candidateLastName", "Doe")).andExpect(status().isOk()).andReturn();
+
+        List<Review> response = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<List<Review>>() {});
+
+        assertThat(response.size()).isEqualTo(expectedReviews.size());
+
+        assertThat(response).isEqualTo(expectedReviews);
+    }
+
     private Review buildReview() {
         return Review.builder()
                 .candidateFirstName("John")
                 .candidateLastName("Doe")
+                .review("Test")
+                .interviewerName("Adam")
+                .interviewerEmail("Adam@corelogic.com")
+                .hiringManagerName("Mateo")
+                .hiringManagerEmail("Mateo@corelogic.com")
+                .dateInterviewed(LocalDate.of(2021, 02, 25))
+                .build();
+    }
+
+    private Review buildReview(String firstName, String lastName) {
+        return Review.builder()
+                .candidateFirstName(firstName)
+                .candidateLastName(lastName)
                 .review("Test")
                 .interviewerName("Adam")
                 .interviewerEmail("Adam@corelogic.com")

@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -51,8 +52,35 @@ public class ReviewServiceUnitTest {
     public void ReviewsRepositoryFindAllReviews() {
         when(reviewRepositoryMock.findAll()).thenReturn(Lists.newArrayList(review));
 
-        subject.findAll();
+        subject.findAll(null, null);
 
         verify(reviewRepositoryMock).findAll();
+    }
+
+    @Test
+    public void ReviewsRespositoryFindAllByCandidateFirstName() {
+        when(reviewRepositoryMock.findByCandidateFirstName("John")).thenReturn(Lists.newArrayList(review));
+
+        subject.findAll("John", null);
+
+        verify(reviewRepositoryMock).findByCandidateFirstName(eq("John"));
+    }
+
+    @Test
+    public void ReviewsRespositoryFindAllByCandidateLastName() {
+        when(reviewRepositoryMock.findByCandidateLastName("Doe")).thenReturn(Lists.newArrayList(review));
+
+        subject.findAll(null, "Doe");
+
+        verify(reviewRepositoryMock).findByCandidateLastName(eq("Doe"));
+    }
+
+    @Test
+    public void ReviewsRespositoryFindAllByCandidateFirstAndLastName() {
+        when(reviewRepositoryMock.findByCandidateFirstNameAndCandidateLastName("John", "Doe")).thenReturn(Lists.newArrayList(review));
+
+        subject.findAll("John", "Doe");
+
+        verify(reviewRepositoryMock).findByCandidateFirstNameAndCandidateLastName(eq("John"), eq("Doe"));
     }
 }

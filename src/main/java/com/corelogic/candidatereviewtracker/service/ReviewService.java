@@ -22,7 +22,15 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
-    public List<Review> findAll() {
+    public List<Review> findAll(String candidateFirstName, String candidateLastName) {
+        if (candidateFirstName != null && candidateLastName != null) {
+            return reviewRepository.findByCandidateFirstNameAndCandidateLastName(candidateFirstName, candidateLastName);
+        }
+        else if (candidateFirstName != null) {
+            return reviewRepository.findByCandidateFirstName(candidateFirstName);
+        } else if (candidateLastName != null) {
+            return reviewRepository.findByCandidateLastName(candidateLastName);
+        }
         return reviewRepository.findAll();
     }
 }
